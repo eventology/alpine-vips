@@ -2,16 +2,14 @@ FROM alpine:latest
 MAINTAINER Chance Hudson
 
 # Download tarball - downloading from http, verify the checksum
-ENV VIPS="vips-8.4.5"
-ENV VIPS_SHA1="c14cedb175836f6f877689d1cbf9689d54aa9b1e"
+ENV VIPS="vips-8.5.9"
 
 # Install vips
-RUN apk add --no-cache glib-dev libxml2-dev libexif-dev libpng-dev \
-  giflib-dev tiff-dev wget && \
+RUN apk add --no-cache glib-dev libxml2-dev libexif-dev libpng-dev curl tar gzip \
+  giflib-dev tiff-dev libwebp-dev wget gtk-doc expat-dev && \
   apk add --no-cache --virtual .build-deps g++ make python outils-sha1 && \
-# Download tarball, match sha1, decompress and delete
-  wget "http://www.vips.ecs.soton.ac.uk/supported/current/${VIPS}.tar.gz" && \
-  sha1 ${VIPS}.tar.gz | grep ${VIPS_SHA1} && \
+# Download tarball, decompress and delete
+  wget "https://github.com/jcupitt/libvips/releases/download/v8.5.9/vips-8.5.9.tar.gz" && \
   tar -xzf ${VIPS}.tar.gz && \
 # Go into vips directory, build, install, then delete
   cd ${VIPS} && \
