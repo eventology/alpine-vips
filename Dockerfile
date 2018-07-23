@@ -1,4 +1,4 @@
-FROM alpine:3.7
+FROM alpine:latest
 MAINTAINER Chance Hudson
 
 # Download tarball - downloading from http, verify the checksum
