@@ -1,18 +1,25 @@
 dist: trusty
 sudo: required
-
-auth: &Auth |
+auth: |
   npm i -g travis-env && eval "$(travis-env)"
   echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-
 jobs:
   include:
-    - stage: build
-      name: "Build latest tag"
-      script:
-        - *Auth
-        - docker build . -t eventology/alpine-vips:latest
-        - docker push eventology/alpine-vips:latest
-
+  - stage: build
+    name: Build latest tag
+    script:
+    - |
+      npm i -g travis-env && eval "$(travis-env)"
+      echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker build . -t eventology/alpine-vips:latest
+    - docker push eventology/alpine-vips:latest
 stages:
-  - build
+- build
+notifications:
+  slack:
+    secure: DI/rz6gmKspfafqQ6SBwSDcOGATTFUNuRkeAhB8TsG/3Yv0nNKjnUfkMNYV4BxqTItYEP12K26CEaoke7vCQDwEkJhyocwru4n8tgFoFNGOD+LihxP6rsHe0nQxsC6JLnym59Dh64TIYqHhgTiTa0BEAfF+Ff/qwTmvxhWFwiAdDI5iDV/Ya0iXFbz9h0op2GGVAXr2yzJrMTzlRYVbDMaPmggxKk9z8b6o6/V09E+Udrj2sfh8USHPOYvhX0U2hWXCTHxYgB9NpDR5FBIIGCFhWu9Pg/coZMAb5uAYvBoJBBJ0G6AnF7imFnjjrgeBoApiUwzQgq93oNTUqR3oghCh/JXDT8Spm4QZgt98AlGJFuI4/F0XclPbEP9AAT7/Kjn0A6d7kAydPfbab0RXY2QRhQVLsd3m90APiKhDQkKbuB5nfdboRSUjSmydbLntdfaK+dkkoHsIpqr0lKmhbi/HLnEWsLeMfhUNM+J5migbOtE0WsiFH6FnkPyWsm37T4j1RpMmIXHIgzecmd/plz8QkwLuCF5DCaWos8WteK7IDP0umEKm8sQVRoU7sKAEN58clznaskG/5wzvhcnYYIPiKKnfPNU8T4+UN5rxESfu6GFms/5+J3uZYVnzJlmDMyoL1v9DzIxMhvvEiWhMFfL+SnFOvD9nEYRBizvgEVAo=
+    on_success: change
+    on_failure: change
+  email:
+    on_success: change
+    on_failure: change
