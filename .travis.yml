@@ -1,6 +1,6 @@
 dist: trusty
 sudo: required
-auth: |
+auth: &Auth |
   npm i -g travis-env && eval "$(travis-env)"
   echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 jobs:
@@ -8,9 +8,7 @@ jobs:
   - stage: build
     name: Build latest tag
     script:
-    - |
-      npm i -g travis-env && eval "$(travis-env)"
-      echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - *Auth
     - docker build . -t eventology/alpine-vips:latest
     - docker push eventology/alpine-vips:latest
 stages:
