@@ -3,15 +3,13 @@ sudo: required
 language: generic
 auth: &Auth |
   eval "$(npx travis-env)"
-  echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
 before_script:
   - *Auth
-  - echo $DOCKER_USERNAME
   - docker --version # document the version travis is using
   - pip install --user awscli # install aws cli w/o sudo
   - export PATH=$PATH:$HOME/.local/bin # put aws in the path
-  - aws ecr get-login --region us-east-1 #needs AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY envvars
+  - eval $(aws ecr get-login --no-include-email --region us-east-1) #needs AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY envvars
 jobs:
   include:
     - stage: build
