@@ -15,8 +15,8 @@ jobs:
     - stage: build
       name: Build latest tag
       script:
-        - docker build -t fan-guru/alpine-vips:latest .
-        - docker tag fan-guru/alpine-vips:latest 712623285669.dkr.ecr.us-east-1.amazonaws.com/fan-guru/alpine-vips:latest
-        - docker push 712623285669.dkr.ecr.us-east-1.amazonaws.com/fan-guru/alpine-vips:latest
+        - docker build -t alpine-vips:latest .
+        - docker tag alpine-vips:latest 712623285669.dkr.ecr.us-east-1.amazonaws.com/alpine-vips:latest
+        - docker push 712623285669.dkr.ecr.us-east-1.amazonaws.com/alpine-vips:latest
 stages:
   - build
