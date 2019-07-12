@@ -1,5 +1,15 @@
 dist: trusty
 sudo: required
+notifications:
+  slack:
+    rooms:
+      - secure: Etw6e5DlFlAfqscTHqGTA0Vgw/sCgTu7CnobunYkCNecCFAA50WLYNVyicFGzlkwskhi42eXm9DYe5Yes2FIuovmNdBps/6S4bIujN7dz+L/PF5xm1ep4LxdrCrqD0ZUSRfrajqpdifY7HDIX2p13d6IpHD5abq5ovTqF65EdGdVW2D8GqISq7wytOW1jv616Z2Yku/rrPf9BpfaLuBNbMHVy4xODXDyleu9LDRjK/Q2lSV+mzN9hFwyQgTjO1jDs4lSEl3HN3z/wQUUxR41Fz7ofH8zuVCthkDaw7wQ221lKN5geyubu5JqzewDRxKlZpK6XvbX6j4LS49ggF11KF7l11a3TD+lqGz+ypDoOuFD8Imp4HZBkKADcKzG9E1qAMb45ok1PrB7qhmAlqeZ3r3Ua4Zd1qNcxLq2w4mQg+LpFYH+240hNyzZk5DmEV5Chq0JMdspr6VTJd7hWLKa/TWqQWxOrfGpRBbtn/fVtfuWv8R3BAeHFLXjGXJINiMBpzveWukCQynnR3NaIianxE/XBkqZ3TivrTnoao3y7fIxLWQw/oCD3+vdwCcnwygtkxc6YYc1tGZ/1VigesmzRU3yC85Jwq997w+DlWZGTG1t55d0fZXq61HboxQm3IkXa4Lh8vLIj5Kw/FcIVNlcAWZN1wON4gWrNdG1DrS7vRU=
+    on_failure: always
+    on_success: never
+    template:
+      - 'Repo `%{repository_slug}` *%{result}* build (<%{build_url}|#%{build_number}>) for commit (<%{compare_url}|%{commit}>) on branch `%{branch}`.'
+      - 'Execution time: *%{duration}*'
+      - 'Message: %{message}'
 language: generic
 auth: &Auth |
   eval "$(npx travis-env)"
@@ -20,3 +30,4 @@ jobs:
         - docker push 712623285669.dkr.ecr.us-east-1.amazonaws.com/alpine-vips:latest
 stages:
   - build
+    
